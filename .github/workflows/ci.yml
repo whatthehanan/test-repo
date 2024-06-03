@@ -43,7 +43,7 @@ jobs:
         uses: repo-sync/pull-request@v2
         with:
           github_token: ${{ secrets.ACCESS_TOKEN }}
-          pr_title: 'Chore: new version bump PR'
+          pr_title: 'chore(release): ${{ steps.get_latest_tag.outputs.latest-tag }}'
           destination_branch: main
           source_branch: release/${{ steps.get_latest_tag.outputs.latest-tag }}
           pr_body: 'This PR was automatically created after a merge to main.'
