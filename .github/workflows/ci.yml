@@ -23,6 +23,9 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
+
+      - name: bump version
+        run: npx standard-version --no-verify
       
       - name: Get latest tag
         id: get_latest_tag
@@ -32,9 +35,6 @@ jobs:
       
       - name: Create new branch
         run: git checkout -b release/${{ steps.get_latest_tag.outputs.latest-tag }}
-
-      - name: bump version
-        run: npx standard-version --no-verify
 
       - name: Push changes
         run: git push -f origin release/${{ steps.get_latest_tag.outputs.latest-tag }}
