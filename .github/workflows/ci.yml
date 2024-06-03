@@ -24,14 +24,24 @@ jobs:
         with:
           node-version: '20.x'
       
-      - name: Create new branch
-        run: git checkout -b release/test
-
       - name: bump version
         run: npx standard-version --no-verify
 
+      - name: Get latest tag
+        uses: actions/github-script@v6
+        with:
+          script: |
+            git fetch origin main
+            latestTag=$(git describe --tags --abbrev=0 origin/main)
+            echo "::set-output name=latestTag::$latestTag"
+
+      
+      - name: Create new branch
+        run: |
+          git checkout -b release/{{ steps.get-latest-tag.outputs.latestTag }}
+
       - name: Push changes
-        run: git push -f origin release/test
+        run: git push -f origin release/{{ steps.get-latest-tag.outputs.latestTag }}
 
       - name: Create Pull Request
         uses: repo-sync/pull-request@v2
@@ -39,7 +49,7 @@ jobs:
           github_token: ${{ secrets.ACCESS_TOKEN }}
           pr_title: 'Chore: new version bump PR'
           destination_branch: main
-          source_branch: release/test
+          source_branch: release/{{ steps.get-latest-tag.outputs.latestTag }}
           pr_body: 'This PR was automatically created after a merge to main.'
           # Optional: labels to add to the PR
           pr_label: auto-generated
