@@ -8,22 +8,13 @@ on:
 jobs:
   version-bump:
     runs-on: ubuntu-latest
+    if: "!contains(toJSON(github.event.commits.*.message), 'chore(release)')"
     steps:
       - uses: actions/checkout@v3
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
       
       - uses: fregante/setup-git-user@v1
-
-      # Check for specific commit format in last merge
-      - name: Check last merge commit message
-        run: |
-          lastCommit=$(git rev-parse HEAD~)
-          commitMessage=$(git log -1 --pretty=%B $lastCommit)
-           if [[ $commitMessage =~ ^chore\(release\): ]] ; then
-            echo "Skipping PR creation, last commit has expected format"
-            exit 0
-          fi
 
       - name: Setup Node.js environment
         uses: actions/setup-node@v4
