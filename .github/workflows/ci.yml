@@ -6,7 +6,7 @@ on:
       - main
 
 permissions:
-  contents: write
+  pull-requests: write  # Permission required for direct merge
 
 jobs:
   version-bump:
@@ -35,12 +35,6 @@ jobs:
       
       - name: Create new branch
         run: git checkout -b release/${{ steps.get_latest_tag.outputs.latest-tag }}
-
-      - name: Close older PRs
-        run: |
-          gh pr list --state open --base main --json number,title | jq -r '.[] | select(.title | contains("chore(release)")) | .number' | xargs -I {} gh pr close {}
-        env:
-          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Push changes
         run: git push -f origin release/${{ steps.get_latest_tag.outputs.latest-tag }}
