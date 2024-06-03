@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.2.1 (2024-06-03)
+
+
+### Bug Fixes
+
+* merge pr after creating ([1191a50](https://github.com/whatthehanan/test-repo/commit/1191a5074fa34dbcfa5e7bd582fb576d997a0f5c))
+
 ## 1.2.0 (2024-06-03)
 
 
