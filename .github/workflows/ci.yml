@@ -31,7 +31,7 @@ jobs:
         run: npx standard-version --no-verify
 
       - name: Push changes
-        run: git push origin release/test
+        run: git push -f origin release/test
 
       - name: Create Pull Request
         uses: repo-sync/pull-request@v2
