@@ -39,6 +39,7 @@ jobs:
           github_token: ${{ secrets.ACCESS_TOKEN }}
           pr_title: 'Chore: new version bump PR'
           destination_branch: main
-          body: 'This PR was automatically created after a merge to main.'
+          source_branch: release/test
+          pr_body: 'This PR was automatically created after a merge to main.'
           # Optional: labels to add to the PR
           pr_label: auto-generated
