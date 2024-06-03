@@ -1,0 +1,56 @@
+name: Auto PR on Main Merge
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  version-bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+      
+      - uses: fregante/setup-git-user@v1
+
+      # Check for specific commit format in last merge
+      - name: Check last merge commit message
+        run: |
+          lastCommit=$(git rev-parse HEAD~)
+          commitMessage=$(git log -1 --pretty=%B $lastCommit)
+           if [[ $commitMessage =~ ^chore\(release\): ]] ; then
+            echo "Skipping PR creation, last commit has expected format"
+            exit 0
+          fi
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: bump version
+        run: npx standard-version --no-verify
+
+      - name: Create new branch
+        run: git checkout -b release/test
+
+      - name: Add changes and commit
+        run: |
+          git add .
+          git commit -m "chore(release): bump version"
+
+      - name: Push changes
+        run: git push origin release/test
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.ACCESS_TOKEN }}
+          title: 'Chore: new version bump PR'
+          body: 'This PR was automatically created after a merge to main.'
+          branch: release/test
+          base: main
+          # Optional: labels to add to the PR
+          labels: auto-generated
