@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+permissions:
+  pull-requests: write
+
 jobs:
   version-bump:
     runs-on: ubuntu-latest
@@ -31,12 +34,11 @@ jobs:
         run: git push origin release/test
 
       - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v6
+        uses: repo-sync/pull-request@v2
         with:
-          token: ${{ secrets.ACCESS_TOKEN }}
-          title: 'Chore: new version bump PR'
+          github_token: ${{ secrets.ACCESS_TOKEN }}
+          pr_title: 'Chore: new version bump PR'
+          destination_branch: main
           body: 'This PR was automatically created after a merge to main.'
-          branch: release/test
-          base: main
           # Optional: labels to add to the PR
-          labels: auto-generated
+          pr_label: auto-generated
