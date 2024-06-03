@@ -1,4 +1,4 @@
-name: Auto PR on Main Merge
+name: Bump Version on Merge to main
 
 on:
   push:
@@ -47,7 +47,7 @@ jobs:
 
       - name: Create Pull Request
         uses: repo-sync/pull-request@v2
-        with:
+        with: 
           github_token: ${{ secrets.ACCESS_TOKEN }}
           pr_title: 'chore(release): ${{ steps.get_latest_tag.outputs.latest-tag }}'
           destination_branch: main
@@ -55,3 +55,12 @@ jobs:
           pr_body: 'This PR was automatically created after a merge to main.'
           # Optional: labels to add to the PR
           pr_label: auto-generated
+
+      - name: Merge Pull Request
+        run: |
+          pr_number=$(gh pr list --state open --base main --json number,title | jq -r '.[] | select(.title == "chore(release): ${{ steps.get_latest_tag.outputs.latest-tag }}") | .number')
+          if [ -n "$pr_number" ]; then
+            gh pr merge $pr_number --merge --admin --repo ${{ github.repository }}
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.ACCESS_TOKEN }}
