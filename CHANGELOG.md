@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### 1.3.2 (2024-06-04)
+
+
+### Bug Fixes
+
+* test3 ([c735bd5](https://github.com/whatthehanan/test-repo/commit/c735bd54fb22ff317d56cd6cfb1ce52134a18130))
+
 ### 1.3.1 (2024-06-04)
 
 
