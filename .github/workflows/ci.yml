@@ -20,13 +20,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-          
-      -   name: Setup SSH Keys and known_hosts
-          env:
-              SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-          run: |
-              ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-              ssh-add - <<< "${{ secrets.SSH_PRIVATE_KEY }}"
 
       - name: bump version
         run: npx standard-version --no-verify
