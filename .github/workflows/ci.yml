@@ -44,6 +44,8 @@ jobs:
         run: git push -f origin release/${{ steps.get_latest_tag.outputs.latest-tag }}
 
       - name: Merge to main
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           git checkout main
           git merge release/${{ steps.get_latest_tag.outputs.latest-tag }}
