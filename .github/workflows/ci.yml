@@ -43,4 +43,4 @@ jobs:
         run: |
           git checkout main
           git merge release/${{ steps.get_latest_tag.outputs.latest-tag }}
-          git push origin main
+          git push --follow-tags origin main
