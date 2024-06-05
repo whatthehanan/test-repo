@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## 1.4.0 (2024-06-05)
+
+
+### Features
+
+* follow tags ([ac5ae37](https://github.com/whatthehanan/test-repo/commit/ac5ae37074a91bd81f8ef212ceac1bb0592a18a2))
+
 ### 1.3.1 (2024-06-04)
 
 
